@@ -9,10 +9,10 @@ import scala.concurrent.duration._
 
 class NoAuthenticationNoEncryptionScenario extends Simulation {
 
-  val users = new UserCreator(BaseJamesWebAdministrationUrl).createUsersWithInboxAndOutbox(UserCount)
+  def feeder = csv("users.csv")
 
   val scn = scenario("SMTP_No_Authentication_No_Encryption")
-    .feed(UserFeeder.createCompletedUserFeederWithInboxAndOutbox(users))
+    .feed(feeder)
     .pause(1 second)
     .during(ScenarioDuration) {
       exec(smtp("sendMail")
